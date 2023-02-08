@@ -8,7 +8,7 @@ const userSchema = new Schema({
   },
   password: { type: String, required: true },
   isAdmin: { type: Boolean, default: false },
-  books: [
+  testsTaken: [
     {
       TestId: {
         type: Types.ObjectId,

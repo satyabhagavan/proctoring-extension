@@ -4,6 +4,11 @@ const testSchema = new Schema({
   name: {
     type: String,
     required: true,
+    unique: false,
+  },
+  testCode: {
+    type: String,
+    required: true,
     unique: true,
   },
   startTime: {
@@ -12,8 +17,10 @@ const testSchema = new Schema({
   },
   endTime: {
     type: Date,
-    required: true,
+    required: false,
   },
 });
 
-const user = model("user", testSchema);
+const test = model("test", testSchema);
+
+module.exports = test;

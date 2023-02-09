@@ -1,5 +1,15 @@
 import React from "react";
 import { BASE_URL } from "../constants";
+import {
+  Button,
+  Modal,
+  ModalHeader,
+  ModalBody,
+  Table,
+  ModalFooter,
+  Input,
+} from "reactstrap";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
 function HomePage({ Refresh }) {
@@ -11,6 +21,9 @@ function HomePage({ Refresh }) {
   const [loginDetails, setLoginDetails] = React.useState({});
   const [signUpDetails, setSignUpDetails] = React.useState({});
   const [testsRecords, setTestRecords] = React.useState([]);
+  const [testInfo, setTestInfo] = React.useState({});
+  const [model, setModel] = React.useState(false);
+  const navigate = useNavigate();
 
   const handleLogin = () => {
     console.log(loginDetails);
@@ -60,6 +73,36 @@ function HomePage({ Refresh }) {
   const logout = () => {
     localStorage.removeItem("userInfo");
     Refresh();
+  };
+
+  const toggleModel = () => {
+    setModel(!model);
+  };
+
+  const createTest = () => {
+    const url = BASE_URL + "tests/create";
+
+    axios
+      .post(url, {
+        name: testInfo["name"],
+        code: testInfo["testCode"],
+        startTime: testInfo["startTime"],
+        endTime: testInfo["endTime"],
+      })
+      .then((res) => {
+        alert("test creation successful");
+        Refresh();
+      })
+      .catch((err) => {
+        console.log(err);
+        alert("error in creation of test");
+      });
+    console.log(testInfo);
+  };
+
+  const goToTestPage = (id) => {
+    console.log(id);
+    navigate(`/tests/${id}`);
   };
 
   React.useEffect(() => {
@@ -192,7 +235,10 @@ function HomePage({ Refresh }) {
           <div>
             <h1>Hi {userStored.email}</h1>
             <h2>Home</h2>
-            <table className="testRecords_table">
+            <Table
+              className="testRecords_table"
+              style={{ width: "80%", margin: "auto" }}
+            >
               <thead>
                 <tr>
                   <th>Test Id</th>
@@ -205,7 +251,13 @@ function HomePage({ Refresh }) {
               <tbody>
                 {testsRecords.map((each, ind) => {
                   return (
-                    <tr key={each._id}>
+                    <tr
+                      key={each._id}
+                      onClick={(e) => {
+                        e.preventDefault();
+                        goToTestPage(each._id);
+                      }}
+                    >
                       <td>{each._id}</td>
                       <td>{each.name}</td>
                       <td>{each.testCode}</td>
@@ -215,7 +267,15 @@ function HomePage({ Refresh }) {
                   );
                 })}
               </tbody>
-            </table>
+            </Table>
+            <div
+              onClick={(e) => {
+                e.preventDefault();
+                toggleModel();
+              }}
+            >
+              Add new Test
+            </div>
             <p
               onClick={(e) => {
                 e.preventDefault();
@@ -228,6 +288,94 @@ function HomePage({ Refresh }) {
           </div>
         )}
       </div>
+
+      <Modal isOpen={model} toggle={toggleModel} backdrop={true}>
+        <ModalBody>
+          <div className="">
+            <div className="">
+              <p>Test name</p>
+              <Input
+                placeholder="please enter the Test Name"
+                type="text"
+                value={testInfo.name}
+                onChange={(e) => {
+                  setTestInfo((old_state) => ({
+                    ...old_state,
+                    name: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+            <div className="">
+              <p>Test Code</p>
+              <Input
+                placeholder="please enter a unique test code"
+                type="text"
+                value={testInfo.testCode}
+                onChange={(e) => {
+                  setTestInfo((old_state) => ({
+                    ...old_state,
+                    testCode: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+            <div className="">
+              <p>Start Time</p>
+              <Input
+                placeholder="please enter the Start Time"
+                type="datetime-local"
+                value={testInfo.startTime}
+                onChange={(e) => {
+                  setTestInfo((old_state) => ({
+                    ...old_state,
+                    startTime: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+            <div className="">
+              <p>End Time</p>
+              <Input
+                placeholder="please enter the End Time"
+                type="datetime-local"
+                value={testInfo.endTime}
+                onChange={(e) => {
+                  setTestInfo((old_state) => ({
+                    ...old_state,
+                    endTime: e.target.value,
+                  }));
+                }}
+              />
+            </div>
+          </div>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "space-between",
+              flexDirection: "row",
+              marginTop: "10px",
+            }}
+          >
+            <Button
+              className="button_styled"
+              onClick={() => toggleModel()}
+              color="danger"
+            >
+              close
+            </Button>
+            <Button
+              className="button_styled"
+              onClick={() => {
+                createTest();
+              }}
+              color="primary"
+            >
+              Add friend
+            </Button>
+          </div>
+        </ModalBody>
+      </Modal>
     </>
   );
 }

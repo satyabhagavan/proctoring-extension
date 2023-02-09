@@ -17,7 +17,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage Refresh={Refresh} />} />
-          <Route path="tests" element={<TestPage />} />
+          <Route path="tests/:id" element={<TestPage />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

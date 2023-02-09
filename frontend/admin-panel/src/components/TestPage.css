@@ -1,0 +1,38 @@
+.test_page
+{
+    padding: 10px;
+}
+
+.test__users
+{
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+}
+
+.users_card
+{
+    width: 30%;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    border-radius: 10px;
+    margin: 10px;
+    border: 2px solid black;
+    cursor: pointer;
+}
+
+.users_card_row
+{
+    display: flex;
+    flex-direction: row;
+    width: 75%;
+}
+
+.users_card_part
+{
+    width: 50%;
+}

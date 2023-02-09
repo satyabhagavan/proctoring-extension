@@ -21,6 +21,9 @@ const userSchema = new Schema({
       dateOfTestTaken: {
         type: String,
       },
+      status: {
+        type: String,
+      },
     },
   ],
 });

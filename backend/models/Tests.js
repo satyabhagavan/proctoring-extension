@@ -19,6 +19,16 @@ const testSchema = new Schema({
     type: Date,
     required: false,
   },
+  users: [
+    {
+      userId: {
+        type: Types.ObjectId,
+      },
+      status: {
+        type: String,
+      },
+    },
+  ],
 });
 
 const test = model("test", testSchema);

@@ -1,28 +1,59 @@
 import React from "react";
 import "./App.css";
+import axios from "axios";
 
 function App() {
   const testDetails = localStorage.getItem("testDetails");
   const [testForm, setTestForm] = React.useState({});
-  const [refresh, setRefresh] = React.useState(false);
+  const BASE_URL = "http://localhost:5000";
 
   const handleTestSubmit = () => {
     console.log(testForm);
-    localStorage.setItem("testDetails", testForm);
+    const url = BASE_URL + "/users/takeTest";
+
+    axios
+      .post(url, {
+        name: testForm.name,
+        email: testForm.email,
+        testCode: testForm.testCode,
+      })
+      .then((res) => {
+        console.log(res);
+        alert(res.data.message);
+        Refresh();
+
+        localStorage.setItem("testDetails", JSON.stringify(testForm));
+      })
+      .catch((err) => {
+        console.log(err);
+        Refresh();
+      });
     setTestForm({});
-    Refresh();
   };
 
   const handleEndTest = () => {
-    localStorage.removeItem("testDetails");
-    Refresh();
+    // localStorage.removeItem("testDetails");
+    let testInfo = localStorage.getItem("testDetails");
+    testInfo = JSON.parse(testInfo);
+
+    const url = BASE_URL + "/users/endTest";
+    axios
+      .post(url, {
+        email: testInfo.email,
+        testCode: testInfo.testCode,
+      })
+      .then((res) => {
+        console.log(res);
+        alert(res.data.message);
+        Refresh();
+
+        localStorage.removeItem("testDetails");
+      });
   };
 
   const Refresh = () => {
-    setRefresh(!refresh);
+    window.location.reload();
   };
-
-  React.useEffect(() => {}, [refresh]);
 
   return (
     <div className="App">
@@ -32,12 +63,12 @@ function App() {
           <div className="testForm">
             <input
               type="text"
-              placeholder="test id"
-              value={testForm.testId}
+              placeholder="test code"
+              value={testForm.testCode}
               onChange={(e) => {
                 setTestForm((old_state) => ({
                   ...old_state,
-                  testId: e.target.value,
+                  testCode: e.target.value,
                 }));
               }}
             ></input>

@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const Tests = require("../models/Tests.js");
+const Users = require("../models/Users.js");
 
 router.route("/").get((req, res) => {
   res.status(200).json({
@@ -47,6 +48,43 @@ router.route("/allTests").get((req, res) => {
       });
     }
   });
+});
+
+router.route("/info/:id").get(async (req, res) => {
+  try {
+    let test = await Tests.findById(req.params.id);
+    if (test) {
+      let users = test.users;
+
+      let UsersInfo = [];
+
+      for (let i = 0; i < users.length; i++) {
+        let temp = users[i];
+        const tempUser = await Users.findById(temp.userId);
+        temp = {
+          userId: temp.userId,
+          status: temp.status,
+          name: tempUser.name,
+          email: tempUser.email,
+        };
+
+        UsersInfo.push(temp);
+      }
+
+      test.users = UsersInfo;
+
+      res.status(200).json({
+        statusCode: 200,
+        test,
+        UsersInfo,
+        message: "test found successfully",
+      });
+    } else {
+      res.status(200).json({ statusCode: 404, message: "test not found" });
+    }
+  } catch (err) {
+    res.status(200).json({ statusCode: 500, message: err.message });
+  }
 });
 
 module.exports = router;

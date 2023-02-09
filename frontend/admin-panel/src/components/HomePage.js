@@ -1,14 +1,6 @@
 import React from "react";
 import { BASE_URL } from "../constants";
-import {
-  Button,
-  Modal,
-  ModalHeader,
-  ModalBody,
-  Table,
-  ModalFooter,
-  Input,
-} from "reactstrap";
+import { Button, Modal, ModalBody, Table, Input } from "reactstrap";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
@@ -29,7 +21,7 @@ function HomePage({ Refresh }) {
     console.log(loginDetails);
 
     axios
-      .post(BASE_URL + "users/login/", {
+      .post(BASE_URL + "/users/login/", {
         email: loginDetails["email"],
         password: loginDetails["password"],
       })
@@ -55,7 +47,7 @@ function HomePage({ Refresh }) {
   const handleSignUp = () => {
     // console.log(signUpDetails);
     axios
-      .post(BASE_URL + "/register/", {
+      .post(BASE_URL + "/users/register/", {
         email: signUpDetails.email,
         name: signUpDetails.name,
         phone_number: signUpDetails.phone_number,
@@ -80,7 +72,7 @@ function HomePage({ Refresh }) {
   };
 
   const createTest = () => {
-    const url = BASE_URL + "tests/create";
+    const url = BASE_URL + "/tests/create";
 
     axios
       .post(url, {
@@ -106,7 +98,7 @@ function HomePage({ Refresh }) {
   };
 
   React.useEffect(() => {
-    const url = BASE_URL + "tests/allTests";
+    const url = BASE_URL + "/tests/allTests";
 
     axios
       .get(url)

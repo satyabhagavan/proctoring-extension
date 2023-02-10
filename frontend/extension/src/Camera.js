@@ -4,6 +4,7 @@ import Webcam from "react-webcam";
 
 function Camera() {
   const [imageSrc, setimageSrc] = useState(null);
+  const [photoInterval, setPhotoInterval] = React.useState();
   const testDetails = JSON.parse(localStorage.getItem("testDetails"));
   const BASE_URL = "http://localhost:5000";
 
@@ -40,6 +41,9 @@ function Camera() {
     setimageSrc(imageSrc2);
   }, [webcamRef]);
 
+  const min = 1;
+  setInterval(capture, min * 10 * 1000);
+
   return (
     <>
       <div>Camera</div>
@@ -53,8 +57,11 @@ function Camera() {
           videoConstraints={videoConstraints}
         />
 
-        <button onClick={capture}>Capture photo</button>
-        <img src={imageSrc} alt="ss" />
+        {/* uncomment this to check if  */}
+        {/* <button onClick={capture}>Capture photo</button> */}
+
+        {/* uncomment this to use this to see */}
+        {/* <img src={imageSrc} alt="ss" /> */}
       </div>
     </>
   );

@@ -58,8 +58,9 @@ function App() {
   return (
     <div className="App">
       <div style={{ width: "250px" }}>Welcome to proctaring</div>
-      {/*
+
       <div>
+        {/* taking details of the test */}
         {testDetails === null && (
           <div className="testForm">
             <input
@@ -111,6 +112,7 @@ function App() {
         {testDetails !== null && (
           <div className="testArea">
             <h2>Test is running</h2>
+            <Camera />
             <div
               onClick={(e) => {
                 e.preventDefault();
@@ -123,8 +125,6 @@ function App() {
           </div>
         )}
       </div>
-      */}
-      <Camera />
     </div>
   );
 }

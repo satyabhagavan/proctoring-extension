@@ -37,9 +37,11 @@ connection.once("open", () => {
 
 const userRoutes = require("./routes/users");
 const testsRoutes = require("./routes/tests");
+const imageRoutes = require("./routes/SaveImage");
 
 app.use("/users/", userRoutes);
 app.use("/tests/", testsRoutes);
+app.use("/image/", imageRoutes);
 
 app.listen(port, () => {
   console.log(`app listening on port ${port}`);

@@ -1,6 +1,7 @@
 import React from "react";
 import "./App.css";
 import axios from "axios";
+import Camera from "./Camera";
 
 function App() {
   const testDetails = localStorage.getItem("testDetails");
@@ -20,9 +21,8 @@ function App() {
       .then((res) => {
         console.log(res);
         alert(res.data.message);
-        Refresh();
-
         localStorage.setItem("testDetails", JSON.stringify(testForm));
+        Refresh();
       })
       .catch((err) => {
         console.log(err);
@@ -58,6 +58,7 @@ function App() {
   return (
     <div className="App">
       <div style={{ width: "250px" }}>Welcome to proctaring</div>
+      {/*
       <div>
         {testDetails === null && (
           <div className="testForm">
@@ -122,6 +123,8 @@ function App() {
           </div>
         )}
       </div>
+      */}
+      <Camera />
     </div>
   );
 }

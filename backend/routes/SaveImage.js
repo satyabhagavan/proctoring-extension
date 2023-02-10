@@ -2,7 +2,8 @@ const router = require("express").Router();
 const fs = require("fs");
 
 router.route("/save").post((req, res) => {
-  const baseFolder = "E:\\internship\\tasks\\eLitmus\\storage";
+  const baseFolder =
+    "E:\\internship\\tasks\\eLitmus\\frontend\\admin-panel\\public\\storage";
 
   let testId = req.body.testCode;
   const testFolder = baseFolder + `\\${testId}`;

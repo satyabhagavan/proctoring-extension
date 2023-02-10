@@ -54,24 +54,22 @@ router.route("/allTests").get((req, res) => {
 
 router.route("/info/:id").get(async (req, res) => {
   try {
-    // let test = await Tests.findById(req.params.id);
     let test = await Tests.findOne({ testCode: req.params.id });
     if (test) {
       let users = test.users;
 
       let UsersInfo = [];
 
-      for (let i = 0; i < users.length; i++) {
-        let temp = users[i];
+      for (let temp of users) {
         const tempUser = await Users.findById(temp.userId);
-        temp = {
+        const tempU = {
           userId: temp.userId,
           status: temp.status,
           name: tempUser.name,
           email: tempUser.email,
         };
 
-        UsersInfo.push(temp);
+        UsersInfo.push(tempU);
       }
 
       test.users = UsersInfo;
@@ -96,7 +94,8 @@ router.route("/:id/user/:email").get(async (req, res) => {
   const testCode = req.params.id;
   const email = req.params.email;
 
-  const baseFolder = "E:\\internship\\tasks\\eLitmus\\storage";
+  const baseFolder =
+    "E:\\internship\\tasks\\eLitmus\\frontend\\admin-panel\\public\\storage";
   let userFolder = baseFolder;
   userFolder = userFolder + `\\${testCode}\\${email}`;
 

@@ -1,6 +1,7 @@
 import "./App.css";
 import HomePage from "./components/HomePage";
 import TestPage from "./components/TestPage";
+import UserPage from "./components/UserPage";
 
 import * as React from "react";
 import { Routes, Route, Outlet, Link } from "react-router-dom";
@@ -18,6 +19,7 @@ export default function App() {
         <Route path="/" element={<Layout />}>
           <Route index element={<HomePage Refresh={Refresh} />} />
           <Route path="tests/:id" element={<TestPage />} />
+          <Route path="tests/:id/user/:email" element={<UserPage />} />
           <Route path="*" element={<NoMatch />} />
         </Route>
       </Routes>

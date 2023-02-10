@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Tests = require("../models/Tests.js");
 const Users = require("../models/Users.js");
+const fs = require("fs");
+const path = require("path");
 
 router.route("/").get((req, res) => {
   res.status(200).json({
@@ -52,7 +54,8 @@ router.route("/allTests").get((req, res) => {
 
 router.route("/info/:id").get(async (req, res) => {
   try {
-    let test = await Tests.findById(req.params.id);
+    // let test = await Tests.findById(req.params.id);
+    let test = await Tests.findOne({ testCode: req.params.id });
     if (test) {
       let users = test.users;
 
@@ -85,6 +88,32 @@ router.route("/info/:id").get(async (req, res) => {
   } catch (err) {
     res.status(200).json({ statusCode: 500, message: err.message });
   }
+});
+
+router.route("/:id/user/:email").get(async (req, res) => {
+  console.log(req.params.id);
+  console.log(req.params.email);
+  const testCode = req.params.id;
+  const email = req.params.email;
+
+  const baseFolder = "E:\\internship\\tasks\\eLitmus\\storage";
+  let userFolder = baseFolder;
+  userFolder = userFolder + `\\${testCode}\\${email}`;
+
+  fs.readdir(userFolder, (error, files) => {
+    if (error) {
+      console.error(`Error reading folder: ${error}`);
+      return res.status(400).json({ message: "Error reading folder" });
+    } else {
+      let listOfFiles = files.filter(
+        (file) => path.extname(file).toLowerCase() === ".jpg"
+      );
+
+      return res
+        .status(200)
+        .json({ message: "files retrived successfully", listOfFiles });
+    }
+  });
 });
 
 module.exports = router;

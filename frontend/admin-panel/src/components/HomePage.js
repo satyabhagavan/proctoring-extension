@@ -92,9 +92,9 @@ function HomePage({ Refresh }) {
     console.log(testInfo);
   };
 
-  const goToTestPage = (id) => {
-    console.log(id);
-    navigate(`/tests/${id}`);
+  const goToTestPage = (testCode) => {
+    console.log(testCode);
+    navigate(`/tests/${testCode}`);
   };
 
   React.useEffect(() => {
@@ -247,7 +247,7 @@ function HomePage({ Refresh }) {
                       key={each._id}
                       onClick={(e) => {
                         e.preventDefault();
-                        goToTestPage(each._id);
+                        goToTestPage(each.testCode);
                       }}
                     >
                       <td>{each._id}</td>

@@ -33,7 +33,3 @@ this will create the build folder which later can be loaded to the extensions
 ## Future Scope:
 * work on UI 
 * added start time and end time feature, but can make the users only give in the active time
-
-
-## Message to evaluation
-* having constraints so not able to use a cloud provider but I am sure I can make the cloud integration
